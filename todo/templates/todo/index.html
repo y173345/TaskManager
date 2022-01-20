@@ -1,0 +1,13 @@
+{% load static %}
+
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}"> -->
+
+{% if latest_todo_list %}
+    <ul>
+        {% for task in latest_todo_list %}
+            <li><a href="{% url 'todo:detail' todo.id %}">{{ task.title }}</a></li>
+{% endfor %}    
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}

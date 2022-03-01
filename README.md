@@ -13,8 +13,8 @@
 - * title (String)
 - * issue date (Date)
   - default: TODAY
-- ~~* is started(Bool), start date (Date)
-- * is Done (Bool), ~~finish date (Date)
+- ~~* is started(Bool), start date (Date)~~
+- * is Done (Bool), ~~finish date (Date)~~
   - default: FALSE 
 - * planned finish date(Date)
   -  default: TODAY

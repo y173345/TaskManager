@@ -1,13 +1,23 @@
-{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width-device-width" initial-scale="1">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-<!-- <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}"> -->
-
-{% if latest_todo_list %}
-    <ul>
-        {% for task in latest_todo_list %}
-            <li><a href="{% url 'todo:detail' todo.id %}">{{ task.title }}</a></li>
-{% endfor %}    
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+        <title>ToDo List</title>
+    </head>
+    <body>
+        {% if todo_list %}
+        <ul>
+            {% for task in todo_list %}
+                <li><a href="{% url 'todo:detail' task.id %}">{{ task.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>You don't have any tasks!</p>
+        {% endif %}
+    </body>
+</html>

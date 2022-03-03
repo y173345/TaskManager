@@ -10,10 +10,18 @@ from .models import Task
 class IndexView(generic.ListView):
     template_name = 'todo/index.html'
     context_object_name = 'todo_list'
+    model = Task
 
-    def get_queryset(self):
-        return Task.objects.filter(issue_date__lte=timezone.now()).order_by("-issue_date")[:10]
+    def get_queryset(self, **kwargs):
+        queryset = super().get_queryset(**kwargs)
 
+        keyword = self.request.GET.get('keyword')
+        if keyword is not None:
+            queryset = queryset.filter(title__contains=keyword)
+
+        queryset = queryset.filter(issue_date__lte=timezone.now()).order_by("-issue_date")
+
+        return queryset
 
 class DetailView(generic.detail.DetailView):
     model = Task

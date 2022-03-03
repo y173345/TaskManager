@@ -1,10 +1,10 @@
-from multiprocessing import context
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from .models import Task
+from .forms import RegisterForm
 
 # Create your views here.
 class IndexView(generic.ListView):
@@ -35,3 +35,7 @@ class DetailView(generic.detail.DetailView):
 # def results(request, todo_id):
 #     response = "You're looking at the results of question %s."
 #     return HttpResponse(response % todo_id)
+
+class RegisterFormView(generic.edit.CreateView):
+    template_name = 'todo/contact.html'
+    form_class = RegisterForm

@@ -15,11 +15,11 @@ class Tag(models.Model):
 class Task(models.Model):
     title = models.CharField(max_length=255, null=False, blank=False)
     issue_date = models.DateField('issue date', default=timezone.now(), null=False, blank=False)
-    complete_date = models.DateField()
+    # complete_date = models.DateField()
     deadline = models.DateField()
     is_done = models.BooleanField(default=False, blank=False)   
-    description = models.TextField()
-    tag = models.ManyToManyField(Tag)
+    description = models.TextField(blank=True, null=True)
+    # tag = models.ManyToManyField(Tag)
 
     def markdown_to_html(self):
         md = markdown.Markdown(

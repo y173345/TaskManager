@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -37,5 +38,6 @@ class DetailView(generic.detail.DetailView):
 #     return HttpResponse(response % todo_id)
 
 class RegisterFormView(generic.edit.CreateView):
-    template_name = 'todo/contact.html'
+    template_name = 'todo/register.html'
+    context_object_name = 'register'
     form_class = RegisterForm

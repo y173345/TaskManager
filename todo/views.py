@@ -1,7 +1,8 @@
-from multiprocessing import context
+from pydoc import resolve
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+from django.shortcuts import get_object_or_404, render, resolve_url
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.utils import timezone
 from .models import Task
@@ -38,6 +39,12 @@ class DetailView(generic.detail.DetailView):
 #     return HttpResponse(response % todo_id)
 
 class RegisterFormView(generic.edit.CreateView):
+    model = Task
     template_name = 'todo/register.html'
     context_object_name = 'register'
     form_class = RegisterForm
+    success_url = reverse_lazy('todo:index')
+
+    def get_success_url(self) -> str:
+        messages.success(self.request, ('Your task is added!'))
+        return resolve_url('todo:index')

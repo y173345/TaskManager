@@ -1,6 +1,8 @@
+from pydoc import resolve
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+from django.shortcuts import get_object_or_404, render, resolve_url
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.utils import timezone
 from .models import Task
@@ -15,11 +17,11 @@ class IndexView(generic.ListView):
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
 
-        keyword = self.request.GET.get('keyword')
+        keyword = self.request.GET.get('keyword')   # sort key
         if keyword is not None:
             queryset = queryset.filter(title__contains=keyword)
 
-        queryset = queryset.filter(issue_date__lte=timezone.now()).order_by("-issue_date")
+        queryset = queryset.filter(issue_date__lte=timezone.now()).order_by("-issue_date") # default: sort by issue date
 
         return queryset
 
@@ -37,5 +39,13 @@ class DetailView(generic.detail.DetailView):
 #     return HttpResponse(response % todo_id)
 
 class RegisterFormView(generic.edit.CreateView):
-    template_name = 'todo/contact.html'
+    model = Task
+    template_name = 'todo/register.html'
+    context_object_name = 'register'
     form_class = RegisterForm
+    success_url = reverse_lazy('todo:index')
+
+    # return url of index if new task is successfully added.
+    def get_success_url(self) -> str:
+        messages.success(self.request, ('Your task is added!'))
+        return resolve_url('todo:index')

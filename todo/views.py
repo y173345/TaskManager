@@ -17,11 +17,11 @@ class IndexView(generic.ListView):
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
 
-        keyword = self.request.GET.get('keyword')
+        keyword = self.request.GET.get('keyword')   # sort key
         if keyword is not None:
             queryset = queryset.filter(title__contains=keyword)
 
-        queryset = queryset.filter(issue_date__lte=timezone.now()).order_by("-issue_date")
+        queryset = queryset.filter(issue_date__lte=timezone.now()).order_by("-issue_date") # default: sort by issue date
 
         return queryset
 
@@ -45,6 +45,7 @@ class RegisterFormView(generic.edit.CreateView):
     form_class = RegisterForm
     success_url = reverse_lazy('todo:index')
 
+    # return url of index if new task is successfully added.
     def get_success_url(self) -> str:
         messages.success(self.request, ('Your task is added!'))
         return resolve_url('todo:index')
